@@ -1,15 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./database"); // Import database connection
+const db = require("./database");
 
 const app = express();
 
-// Parse incoming data (e.g., JSON)
 app.use(bodyParser.json());
 
-// Sample API routes for each table:
-
-// GET /api/table1 (get all items)
 app.get("/api/category", (req, res) => {
   db.all("SELECT * FROM category", (err, rows) => {
     if (err) {
@@ -39,7 +35,7 @@ app.get("/api/dua", (req, res) => {
     }
   });
 });
-// GET /api/table1/:id (get item by ID)
+
 app.get("/api/sub_category/:id", (req, res) => {
   const id = req.params.id;
   db.get("SELECT * FROM subcategory WHERE id = ?", [id], (err, row) => {
@@ -54,7 +50,7 @@ app.get("/api/sub_category/:id", (req, res) => {
 });
 app.get("/api/category/:id", (req, res) => {
   const id = req.params.id;
-  console.log("Requested ID:", id); // Check if the ID is correctly extracted
+  console.log("Requested ID:", id);
   db.get("SELECT * FROM category WHERE id = ?", [id], (err, row) => {
     if (err) {
       console.error("Database Error:", err.message);
@@ -71,7 +67,7 @@ app.get("/api/category/:id", (req, res) => {
 
 app.get("/api/dua/:id", (req, res) => {
   const id = req.params.id;
-  console.log("Requested ID:", id); // Check if the ID is correctly extracted
+  console.log("Requested ID:", id);
   db.get("SELECT * FROM dua WHERE id = ?", [id], (err, row) => {
     if (err) {
       console.error("Database Error:", err.message);
@@ -85,9 +81,7 @@ app.get("/api/dua/:id", (req, res) => {
     }
   });
 });
-// Update and Delete routes can be similarly implemented
 
-// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

@@ -1,12 +1,14 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors"); // Import cors
 const db = require("./database");
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors()); // Use cors middleware
 
+// Get all categories
 app.get("/api/category", (req, res) => {
   db.all("SELECT * FROM category", (err, rows) => {
     if (err) {
@@ -17,6 +19,7 @@ app.get("/api/category", (req, res) => {
   });
 });
 
+// Get all sub-categories
 app.get("/api/sub_category", (req, res) => {
   db.all("SELECT * FROM sub_category", (err, rows) => {
     if (err) {
@@ -27,6 +30,7 @@ app.get("/api/sub_category", (req, res) => {
   });
 });
 
+// Get all duas
 app.get("/api/dua", (req, res) => {
   db.all("SELECT * FROM dua", (err, rows) => {
     if (err) {
@@ -37,9 +41,10 @@ app.get("/api/dua", (req, res) => {
   });
 });
 
+// Get a specific sub-category by ID
 app.get("/api/sub_category/:id", (req, res) => {
   const id = req.params.id;
-  db.get("SELECT * FROM subcategory WHERE id = ?", [id], (err, row) => {
+  db.get("SELECT * FROM sub_category WHERE id = ?", [id], (err, row) => {
     if (err) {
       res.status(500).json({ error: err.message });
     } else if (!row) {
@@ -49,6 +54,8 @@ app.get("/api/sub_category/:id", (req, res) => {
     }
   });
 });
+
+// Get a specific category by ID
 app.get("/api/category/:id", (req, res) => {
   const id = req.params.id;
   console.log("Requested ID:", id);
@@ -66,6 +73,7 @@ app.get("/api/category/:id", (req, res) => {
   });
 });
 
+// Get a specific dua by ID
 app.get("/api/dua/:id", (req, res) => {
   const id = req.params.id;
   console.log("Requested ID:", id);

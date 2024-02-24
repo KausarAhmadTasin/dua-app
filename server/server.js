@@ -5,6 +5,7 @@ const db = require("./database");
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get("/api/category", (req, res) => {
   db.all("SELECT * FROM category", (err, rows) => {
